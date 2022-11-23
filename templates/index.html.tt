@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to the Mojolicious real-time web framework!</title>
+</head>
+<body>
+
+[% IF top_msg %]
+<h2> [% top_msg %] </h2>
+[% END %]
+<h2>This is Blurble. Log in below.</h2>
+
+<form action="/login" id="login_form">
+<label for="username">Username</label>
+<input name="username" type="text" required autofocus></input>
+<label for="password">Password</label>
+<input name="password" type="password" required></input>
+<input type="submit" value="log in" formmethod="post"></input>
+</form>
+
+<p> [% login_msg | html %] </p>
+
+<h2>Create a new user</h2>
+
+<form action="/user" id="user_form">
+<label for="username">Username</label>
+<input name="username" type="text" required></input>
+<label for="password">Password</label>
+<input name="password" type="password" required></input>
+<input type="submit" value="create user" formmethod="post"></input> <!-- TODO: would be cool if there were a way of validating username in real time and styling -->
+</form>
+
+<p> [% user_msg | html %] </p>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head><title><%= title %></title></head>
+<body>
+
+
+</body>
+</html>
