@@ -11,9 +11,12 @@ $dbh->do(<<~"EOQ");
     CREATE TABLE IF NOT EXISTS users(
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
+        fc_username TEXT NOT NULL,
+        display_name TEXT,
         password TEXT NOT NULL,
         created_date TEXT NOT NULL,
-        UNIQUE(username)
+        UNIQUE(username),
+        UNIQUE(fc_username)
     )
     EOQ
 $dbh->do(<<~"EOQ");

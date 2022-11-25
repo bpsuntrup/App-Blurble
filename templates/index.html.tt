@@ -15,7 +15,7 @@
 <input name="username" type="text" required autofocus></input>
 <label for="password">Password</label>
 <input name="password" type="password" required></input>
-<input type="submit" value="log in" formmethod="post"></input>
+<input type="submit" value="log in" formmethod="get"></input>
 </form>
 
 <p> [% login_msg | html %] </p>
@@ -23,8 +23,8 @@
 <h2>Create a new user</h2>
 
 <form action="/user" id="user_form">
-<label for="username">Username</label>
-<input name="username" type="text" required></input>
+<label for="username">Username ( =~ /^[a-zA-Z][a-zA-Z_0-9]*$/)</label>
+<input name="username" type="text" required pattern="^[a-zA-Z][a-zA-Z_0-9]*$"></input>
 <label for="password">Password</label>
 <input name="password" type="password" required></input>
 <input type="submit" value="create user" formmethod="post"></input> <!-- TODO: would be cool if there were a way of validating username in real time and styling -->

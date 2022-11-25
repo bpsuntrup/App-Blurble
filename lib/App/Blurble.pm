@@ -5,6 +5,8 @@ use warnings;
 
 use Mojo::Base 'Mojolicious';
 use App::Blurble::Utils qw/app_base/;
+use aliased 'App::Blurble::Model';
+use aliased 'App::Blurble::Biz';
 
 # This method will run once at server start
 sub startup {
@@ -17,12 +19,15 @@ sub startup {
 
   $self->renderer->default_handler('tt');
 
+  $self->helper(model => Model);
+  $self->helper(biz   => Biz);
+
   # Router
   my $r = $self->routes;
 
   # Normal route to controller
   $r->get('/')->to('main#index');
-  $r->post('/login')->to('login#login_now');
+  $r->get('/login')->to('login#login_now');
   $r->post('/user')->to('user#create_user_now');
   $r->post('/unlogin')->to('login#log_out');
   $r->delete('/login')->to('login#log_out');

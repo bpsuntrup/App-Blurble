@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use Mojo::Base 'Mojolicious::Controller';
-use aliased 'App::Blurble::Model';
 
 # POST /user
 # redirects to /blurbs with new user logged in, I guess
@@ -13,20 +12,20 @@ use aliased 'App::Blurble::Model';
 sub create_user_now {
     my $self = shift;
     my $rp = $self->req->params->to_hash;
+    my $username = $rp->{username};
 
-    my $user_id = eval {
-        Model->users->create( %${rp}{qw/username password/} );
-    };
+    unless ($self->biz->users->is_valid_username(username => $username)) {
+        my $url = $self->url_for('/')->query( 
+            user_msg => "Username is invalid. Try another one."
+        );
+        return $self->redirect_to($url);
+    }
 
-    if ($@) {
-        if (ref $@ eq 'App::Blurble::Exception::Constraint') { # we have a bad name. Probably in-use username
-            # we have a bad name. Probably in-use username
-            my $url = $self->url_for('/')->query( user_msg => $@->msg );
-            return $self->redirect_to($url);
-        }
-        else {
-            die;
-        }
+    my $user_id = $self->model->users->create( %${rp}{qw/username password/} );
+
+    unless ($user_id) {
+        my $url = $self->url_for('/')->query( user_msg => "Username exists. Please choose another." );
+        return $self->redirect_to($url);
     }
 
     my $url = $self->url_for('/')->query( top_msg => "User $rp->{username} created successfully. You may log in." );

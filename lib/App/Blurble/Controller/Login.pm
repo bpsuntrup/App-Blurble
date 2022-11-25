@@ -6,7 +6,7 @@ use warnings;
 use Mojo::Base 'Mojolicious::Controller';
 use aliased 'App::Blurble::Model';
 
-# POST /login
+# GET /login
 # if successful, gives auth cookie, redirects to /blurbs
 sub login_now {
     my $self = shift;
@@ -14,12 +14,8 @@ sub login_now {
     my $user = Model->users->get_by_username($rp->{username});
     my $auth = $user && Model->users->auth_check(user => $user, password => $rp->{password});
     if ($auth) {
-        #render main page
-        # give the user a cookie:w
-        warn "auth succeeded\n\n\n";
         $self->session(username => $user->{username});
         $self->session(user_id  => $user->{user_id});
-        # TODO: set expiration and stuff here
 
         return $self->redirect_to('/blurbs');
     }
