@@ -17,6 +17,16 @@ next week. Just want to take my mind off, ease some anxiety.
 Requires Mojolicious. We'll see how I choose to handle dependencies here in a minute.
 there are a lot, and they're undocumented. Keep installing stuff from CPAN till it works.
 
+useful commands:
+================
+to run dev server:
+npm install 
+npm exec webpack
+script/app_blurble daemon -l http://*:8000
+
+to autoload changes to frontend/:
+npm install
+npm exec webpack watch
 
 TODO:
 * README

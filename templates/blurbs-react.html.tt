@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title> Blurbs by [% username %] </title>
+
+</head>
+<body>
+
+<form action="/unlogin">
+<input type="submit" value="Log out" formmethod="post"></input>
+</form>
+
+Hi, [% username %]. Blurb away.
+
+<h3> new blurb: </h3>
+<form action="/blurb">
+<input name="blurb_content" type="text" autofocus> </input>
+<input type="hidden" name="username" value="USERNAME"></input>
+<input type="submit" value="Write blurb" formmethod="post"></input>
+</form>
+
+<div id="blurb-list-root"></div>
+
+
+
+<script src="blurbs.bundle.js"></script>
+<script> document.load_blurbs([%# put blurbs in here %])  </script>
+
+</body>
+</html>

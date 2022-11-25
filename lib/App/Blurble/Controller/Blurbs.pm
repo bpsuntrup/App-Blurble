@@ -21,7 +21,7 @@ sub blurbs {
 
     my @blurbs = Model->blurbs->get_all(user_id => $self->session('user_id')); # TODO: this can be optimized easily... at least paginated, right?
 
-    $self->render(template => 'blurbs',
+    $self->render(template => 'blurbs-react',
                   username => $username,
                   blurbs   => \@blurbs,
                   handler => 'tt',
