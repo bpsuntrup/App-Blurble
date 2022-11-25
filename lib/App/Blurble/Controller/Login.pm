@@ -4,15 +4,15 @@ use strict;
 use warnings;
 
 use Mojo::Base 'Mojolicious::Controller';
-use aliased 'App::Blurble::Model';
 
 # GET /login
 # if successful, gives auth cookie, redirects to /blurbs
 sub login_now {
     my $self = shift;
     my $rp = $self->req->params->to_hash;
-    my $user = Model->users->get_by_username($rp->{username});
-    my $auth = $user && Model->users->auth_check(user => $user, password => $rp->{password});
+    my ($username) = $rp->{username} =~ s/^\s+|\s+$//gr;
+    my $user = $self->model->users->get_by_username($username);
+    my $auth = $user && $self->model->users->auth_check(user => $user, password => $rp->{password});
     if ($auth) {
         $self->session(username => $user->{username});
         $self->session(user_id  => $user->{user_id});

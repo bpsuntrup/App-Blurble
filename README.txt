@@ -23,14 +23,12 @@ TODO:
 * tests
 * dockerization
 * put in git server on suntrup.net
-* html form validation for /
-   * username creation should not allow inner whitespace or any non alphanumeric, and should start with alpha
-* handle username collisions more gracefully, hopefully in client
-* login should strip outer whitespace from username
-* Model.pm bug, loads *.swp files. needs to load only .pm files
 * make a cpan distribution I can install on my server
 * turn on taint and clean up
-* use python -m SimpleHTTPServer 8000 to serve this code, sftp it over
+* mojo form validation for all forms
+    * users#create
+    * login#login
+
 * put it in home under a directory called code/, and add a new nginx location /code { proxy_pass http://localhost:8000; } block
 * create hypnotoad service, get it running, add location /blurble { proxy_pass http://localhost:8080/; } to nginx config
 

@@ -12,7 +12,7 @@ use Mojo::Base 'Mojolicious::Controller';
 sub create_user_now {
     my $self = shift;
     my $rp = $self->req->params->to_hash;
-    my $username = $rp->{username};
+    my ($username) = $rp->{username} =~ s/^\s+|\s+$//gr;
 
     unless ($self->biz->users->is_valid_username(username => $username)) {
         my $url = $self->url_for('/')->query( 
