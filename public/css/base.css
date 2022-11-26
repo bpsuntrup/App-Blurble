@@ -12,12 +12,9 @@ header {
 }
 
 .login {
-    width: 33%;
     border: 2px solid white;
     padding: 5px;
-    border-radius: 10px;
-    box-shadow: 10px 10px 10px;
-    margin: 0 auto;
+    margin:
 }
 
 #new-username-regex {
@@ -41,15 +38,32 @@ input[type=text] {
     margin: 5px auto;
     background-color: #F0F0F0;
 }
+
 .blurbList {
-    width: 33%;
     border: 2px solid #535353;
     padding: 5px;
-    border-radius: 10px;
-    box-shadow: 10px 10px 10px;
     margin: 10px auto;
     list-style: none;
     background-color: #A6A6A6;
 }
+
+@media (min-width: 710px) {
+    .skinny {
+        width: 33%;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 10px 10px 10px;
+    }
+}
+@media (max-width: 710px) {
+    .skinny {
+        width: 95%;
+        right-padding: 10px;
+        margin: 0px;
+        border-radius: 10px;
+    }
+}
+
+#710 is the magic number
 
 

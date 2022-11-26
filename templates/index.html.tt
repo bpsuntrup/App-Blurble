@@ -16,7 +16,7 @@
 </header>
 
 <h2> Log in </h2>
-<form action="/login" id="login_form" class="login">
+<form action="/login" id="login_form" class="login skinny">
 <label for="username">Username</label>
 <br>
 <input name="username" type="text" required autofocus></input>
@@ -32,7 +32,7 @@
 
 <h2>Create a new user</h2>
 
-<form action="/user" id="user_form" class="login">
+<form action="/user" id="user_form" class="login skinny">
 <label for="username">Username <span id="new-username-regex">( =~ /^[a-zA-Z][a-zA-Z_0-9]*$/)</span></label>
 <br>
 <input id="new-username-input" name="username" type="text" required pattern="^[a-zA-Z][a-zA-Z_0-9]*$" autocomplete="off"></input>

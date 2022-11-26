@@ -74,7 +74,7 @@ class App extends React.Component {
         <input type="submit" value="write new blurb"/>
       </form>
 
-        <ul className="blurbList"> { this.state.blurbs } </ul>
+        <ul className="blurbList skinny"> { this.state.blurbs } </ul>
     </div>
   }
 }
