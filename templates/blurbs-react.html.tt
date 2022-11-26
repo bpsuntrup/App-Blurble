@@ -13,12 +13,6 @@
 
 Hi, [% username %]. Blurb away.
 
-<h3> new blurb: </h3>
-<form action="/blurb">
-<input name="blurb_content" type="text" autofocus> </input>
-<input type="hidden" name="username" value="USERNAME"></input>
-<input type="submit" value="Write blurb" formmethod="post"></input>
-</form>
 
 <div id="blurb-list-root"></div>
 

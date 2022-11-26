@@ -30,7 +30,12 @@ sub create {
 
     my $blurb_id = last_id;
     $sth_user_blurb->execute($params{user_id}, $blurb_id);
-    return $blurb_id;
+
+
+    return {
+        blurb_id => $blurb_id,
+        date     => $time,
+    };
 }
 
 # TODO: support pagination or something

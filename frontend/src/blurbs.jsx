@@ -6,7 +6,7 @@ const bl_root = ReactDOM.createRoot(document.getElementById('blurb-list-root'));
 class Blurb extends React.Component {
   render() {
     
-    return <div className="blurb" id={this.props.key}>
+    return <div className="blurb">
              <p> {this.props.date} </p>
              <p> {this.props.content} </p>
            </div>;
@@ -14,18 +14,68 @@ class Blurb extends React.Component {
 }
 
 class App extends React.Component {
-  render() {
-    const blurbs = this.props.blurbs.map( (b,i) => {
-      return <li key={i.toString()}> {b} </li>;
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      newContent: "LOADING",
+      blurbs: [<Blurb key="1" content="LOADING..."/>]
+    }
+    fetch('/blurbs', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+    }).then(res => res.json()).then((json) => {
+      const blurbs = json.blurbs.map( blurb => {
+        return <li key={blurb.blurb_id}> 
+                 <Blurb date={blurb.date} content={blurb.content}/>
+               </li>;
+      });
+      this.setState({
+        newContent: "",
+        blurbs: blurbs,
+      });
     });
+
+    this.handleNewBlurb = this.handleNewBlurb.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
+  }
+
+  handleContentChange(e) {
+    this.setState({newContent: e.target.value});
+  }
+
+  handleNewBlurb(e) {
+    //TODO: implement
+    fetch('/blurb', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({ blurb_content: this.state.newContent })
+    }).then(res => res.json()).then((json) => {
+      let blurb = <li key={json.blurb_id} >
+                    <Blurb date={json.date} content={this.state.newContent}/>
+                  </li>;
+      this.setState({ 
+        newContent: "",
+        blurbs: [blurb].concat(this.state.blurbs),
+      });
+    });
+    
+    e.preventDefault();
+  }
+
+  render() {
     return <div className="app">
-      <form action="add_blurb()">
-        <input name="blurb_content" type="text" autoFocus/>
-        <input type="hidden" name="username" value="USERNAME"/>
-        <input type="submit" value="Write blurb" formMethod="post"/>
+      <form onSubmit={this.handleNewBlurb}>
+        <input name="blurb_content" type="text" value={this.state.newContent} onChange={this.handleContentChange} autoFocus autoComplete="off"/>
+        <input type="hidden" name="username" value="TODO_USERNAME"/>
+        <input type="submit" value="write new blurb"/>
       </form>
 
-        <ul> { blurbs } </ul>;
+        <ul> { this.state.blurbs } </ul>
     </div>
   }
 }

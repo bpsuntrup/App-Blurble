@@ -21,20 +21,23 @@ sub blurbs {
 
     my @blurbs = Model->blurbs->get_all(user_id => $self->session('user_id')); # TODO: this can be optimized easily... at least paginated, right?
 
-    $self->render(template => 'blurbs-react',
-                  username => $username,
-                  blurbs   => \@blurbs,
-                  handler => 'tt',
-                  format  => 'html',);
+    my $content_type = $self->req->headers->content_type;
+    if ($content_type =~ /json/) {
+        return $self->render(json => { blurbs => \@blurbs });
+    }
+    else {
+        return $self->render(template => 'blurbs-react',
+                      username => $username,
+                      blurbs   => \@blurbs,
+                      handler => 'tt',
+                      format  => 'html',);
+    }
 }
 
 # POST /blurb
 # must have auth cookie or redirects to login
 sub add_blurb {
     my $self = shift;
-
-    my $rp = $self->req->params->to_hash;
-
 
     # TODO username validation. Make this a helper in all of my controllers. Grep for peanutbutter for more
     my $username = $self->session('username');
@@ -43,10 +46,18 @@ sub add_blurb {
         return $self->redirect_to($url);
     }
 
-    Model->blurbs->create(user_id => $self->session('user_id'),
-                          content => $rp->{blurb_content});
+    my $content_type = $self->req->headers->content_type;
+    if ($content_type =~ /json/) {
+        my $deets = $self->model->blurbs->create(user_id => $self->session('user_id'),
+                                                 content => $self->req->json->{blurb_content});
+        return $self->render(json => $deets);
+    }
+    else {
+        $self->model->blurbs->create(user_id => $self->session('user_id'),
+                                     content => $self->req->param('blurb_content'),);
 
-    $self->redirect_to('/blurbs'); # TODO: make sure this has the right params
+        return $self->redirect_to('/blurbs'); 
+    }
 }
 
 1;

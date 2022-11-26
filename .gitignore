@@ -3,3 +3,4 @@ blurdb
 *.pid
 frontend/dist
 node_modules
+public/blurbs.bundle.js
