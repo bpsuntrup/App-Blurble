@@ -1,0 +1,55 @@
+body {
+    background-color: #DBF1FF;
+    font-family: Arial;
+    text-align: center;
+}
+
+h1 {
+    font-weight: bold;
+}
+header {
+    gt
+}
+
+.login {
+    width: 33%;
+    border: 2px solid white;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px;
+    margin: 0 auto;
+}
+
+#new-username-regex {
+    font-size: 75%;
+    color: #606060;
+}
+
+#antisocial-tag {
+    font-size: 25%;
+    color: #606060;
+}
+
+input[type=text] {
+    border-radius: 4px;
+    margin: 4px;
+}
+
+.blurb {
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px auto;
+    background-color: #F0F0F0;
+}
+.blurbList {
+    width: 33%;
+    border: 2px solid #535353;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px;
+    margin: 10px auto;
+    list-style: none;
+    background-color: #A6A6A6;
+}
+
+

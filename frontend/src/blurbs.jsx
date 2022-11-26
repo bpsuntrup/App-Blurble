@@ -5,7 +5,6 @@ const bl_root = ReactDOM.createRoot(document.getElementById('blurb-list-root'));
 
 class Blurb extends React.Component {
   render() {
-    
     return <div className="blurb">
              <p> {this.props.date} </p>
              <p> {this.props.content} </p>
@@ -75,13 +74,9 @@ class App extends React.Component {
         <input type="submit" value="write new blurb"/>
       </form>
 
-        <ul> { this.state.blurbs } </ul>
+        <ul className="blurbList"> { this.state.blurbs } </ul>
     </div>
   }
-}
-
-function add_blurb() {
-  //todo, called in App component 
 }
 
 //TODO: get these blurbs from backend as JSON
@@ -95,13 +90,4 @@ blurbs.push(<Blurb date="11/25/2022" content="remember to sing loudly"/>);
 let app = <App blurbs={blurbs} />;
 
 bl_root.render(app);
-
-document.load_blurbs = function load_blurbs(json_blurbs) {
-  //TODO, render blurbs directly from server. Maybe this is a bad idea.
-}
-
-
-// filter blurbs in blurbs based on text input
-// TODO: add blurb
-// TODO: filter blurbs
 

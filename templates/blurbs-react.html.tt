@@ -3,6 +3,8 @@
 <head>
 
 <title> Blurbs by [% username %] </title>
+<link rel="stylesheet" type="text/css" href="css/base.css" type="style"></link>
+<link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
 <body>
@@ -13,13 +15,9 @@
 
 Hi, [% username %]. Blurb away.
 
-
-<div id="blurb-list-root"></div>
-
-
+<div id="blurb-list-root"> LOADING APP... </div>
 
 <script src="blurbs.bundle.js"></script>
-<script> document.load_blurbs([%# put blurbs in here %])  </script>
 
 </body>
 </html>

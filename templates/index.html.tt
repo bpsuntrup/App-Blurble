@@ -1,43 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Welcome to the Mojolicious real-time web framework!</title>
+<title>Blurble</title>
+<link rel="stylesheet" type="text/css" href="css/base.css" type="style"></link>
+<link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 </head>
 <body>
 
 [% IF top_msg %]
-<h2> [% top_msg %] </h2>
+<h2 style="color: red;"> [% top_msg %] </h2>
 [% END %]
-<h2>This is Blurble. Log in below.</h2>
+<header>
+<h1>This is Blurble. <span id="antisocial-tag">Go away!</span></h1>
+<p id="slogan"> <em>Anti-social media!</em></p>
+</header>
 
-<form action="/login" id="login_form">
+<h2> Log in </h2>
+<form action="/login" id="login_form" class="login">
 <label for="username">Username</label>
+<br>
 <input name="username" type="text" required autofocus></input>
+<br>
 <label for="password">Password</label>
+<br>
 <input name="password" type="password" required></input>
+<br>
 <input type="submit" value="log in" formmethod="get"></input>
 </form>
 
-<p> [% login_msg | html %] </p>
+<p style="color: red"> [% login_msg | html %] </p>
 
 <h2>Create a new user</h2>
 
-<form action="/user" id="user_form">
-<label for="username">Username ( =~ /^[a-zA-Z][a-zA-Z_0-9]*$/)</label>
-<input name="username" type="text" required pattern="^[a-zA-Z][a-zA-Z_0-9]*$"></input>
+<form action="/user" id="user_form" class="login">
+<label for="username">Username <span id="new-username-regex">( =~ /^[a-zA-Z][a-zA-Z_0-9]*$/)</span></label>
+<br>
+<input id="new-username-input" name="username" type="text" required pattern="^[a-zA-Z][a-zA-Z_0-9]*$" autocomplete="off"></input>
+<br>
 <label for="password">Password</label>
+<br>
 <input name="password" type="password" required></input>
+<br>
 <input type="submit" value="create user" formmethod="post"></input> <!-- TODO: would be cool if there were a way of validating username in real time and styling -->
 </form>
 
-<p> [% user_msg | html %] </p>
+<p style="color: red"> [% user_msg | html %] </p>
 
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head><title><%= title %></title></head>
-<body>
 
 
 </body>

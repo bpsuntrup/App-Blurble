@@ -30,6 +30,7 @@ npm exec webpack watch
 
 TODO:
 * README
+* pod
 * tests
 * dockerization
 * put in git server on suntrup.net
@@ -38,7 +39,6 @@ TODO:
 * mojo form validation for all forms
     * users#create
     * login#login
-* style login page
 
 * put it in home under a directory called code/, and add a new nginx location /code { proxy_pass http://localhost:8000; } block
 * create hypnotoad service, get it running, add location /blurble { proxy_pass http://localhost:8080/; } to nginx config
