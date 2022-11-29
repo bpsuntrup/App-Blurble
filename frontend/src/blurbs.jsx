@@ -23,7 +23,7 @@ class App extends React.Component {
 
     this.state = {
       newContent: "LOADING",
-      blurbs: [<Blurb key="1" content="LOADING..."/>]
+      blurbs: [<Blurb key="1" content="LOADING..." />]
     }
     fetch('/blurbs', {
       method: 'GET',
@@ -75,7 +75,7 @@ class App extends React.Component {
       body: JSON.stringify({ blurb_content: this.state.newContent })
     }).then(res => res.json()).then((json) => {
       let blurb = <li key={json.blurb_id} >
-                    <Blurb date={json.date} content={this.state.newContent}/>
+                    <Blurb date={json.date} content={this.state.newContent} onDelete={this.handleDeleteBlurb}/>
                   </li>;
       this.setState({ 
         newContent: "",
