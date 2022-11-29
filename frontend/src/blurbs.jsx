@@ -7,7 +7,7 @@ class Blurb extends React.Component {
   render() {
     return <div className="blurb" id={this.props.id} >
              <p> {this.props.date} </p>
-             <button onClick={this.props.onDelete} className="delete-button">🗑️</button>
+             <button onTouchStart={this.props.onDelete} onClick={this.props.onDelete} className="delete-button">🗑️</button>
              <p> {this.props.content} </p>
            </div>;
   }
