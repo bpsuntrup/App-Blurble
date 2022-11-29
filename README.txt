@@ -29,10 +29,8 @@ TODO:
 * mojo form validation for all forms
     * users#create
     * login#login
-
-
-* put it in home under a directory called code/, and add a new nginx location /code { proxy_pass http://localhost:8000; } block
-* create hypnotoad service, get it running, add location /blurble { proxy_pass http://localhost:8080/; } to nginx config
+* GMT is great, but it should convert it to local time
+* build and deploy script
 
 
 FUTURE FEATURES:
