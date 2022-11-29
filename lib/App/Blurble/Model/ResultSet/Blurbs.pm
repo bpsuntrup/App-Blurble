@@ -62,4 +62,18 @@ sub get_all {
     return @result;
 }
 
+sub delete {
+    my ($self, %params) = @_;
+
+    unless ($params{blurb_id}) {
+        die "We needs a blurb_id."
+    }
+
+    state $b_sth = $dbh->prepare("DELETE FROM blurbs WHERE blurb_id = ?");
+    state $ub_sth = $dbh->prepare("DELETE FROM user_blurbs WHERE blurb_id = ?");
+    $b_sth->execute($params{blurb_id});
+    $ub_sth->execute($params{blurb_id});
+}
+
+
 1;

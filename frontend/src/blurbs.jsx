@@ -5,8 +5,9 @@ const bl_root = ReactDOM.createRoot(document.getElementById('blurb-list-root'));
 
 class Blurb extends React.Component {
   render() {
-    return <div className="blurb">
+    return <div className="blurb" id={this.props.id} >
              <p> {this.props.date} </p>
+             <button onClick={this.props.onDelete} className="delete-button">🗑️</button>
              <p> {this.props.content} </p>
            </div>;
   }
@@ -15,6 +16,10 @@ class Blurb extends React.Component {
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.handleNewBlurb = this.handleNewBlurb.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
+    this.handleDeleteBlurb = this.handleDeleteBlurb.bind(this);
 
     this.state = {
       newContent: "LOADING",
@@ -28,7 +33,7 @@ class App extends React.Component {
     }).then(res => res.json()).then((json) => {
       const blurbs = json.blurbs.map( blurb => {
         return <li key={blurb.blurb_id}> 
-                 <Blurb date={blurb.date} content={blurb.content}/>
+                 <Blurb id={"blurb_id-" + blurb.blurb_id} date={blurb.date} content={blurb.content} onDelete={this.handleDeleteBlurb}/>
                </li>;
       });
       this.setState({
@@ -37,8 +42,23 @@ class App extends React.Component {
       });
     });
 
-    this.handleNewBlurb = this.handleNewBlurb.bind(this);
-    this.handleContentChange = this.handleContentChange.bind(this);
+  }
+
+  handleDeleteBlurb(e) {
+    console.log(e);
+    console.log(e.target.parentElement.attributes.id);
+    //formatted like 'blurb_id-123'
+    const [ ,blurb_id] = e.target.parentElement.attributes.id.nodeValue.split('-');
+    console.log(blurb_id);
+    fetch('/blurb/' + blurb_id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+    });
+    this.setState({
+      blurbs: this.state.blurbs.filter((b) => b.key !== blurb_id),
+    });
   }
 
   handleContentChange(e) {
@@ -79,15 +99,5 @@ class App extends React.Component {
   }
 }
 
-//TODO: get these blurbs from backend as JSON
-let blurbs = [];
-blurbs.push(<Blurb date="11/25/2022" content="forks and spoons" />);
-blurbs.push(<Blurb date="11/25/2022" content="poo emoji"/>);
-blurbs.push(<Blurb date="11/25/2022" content="emos are goths that hate themselves"/>);
-blurbs.push(<Blurb date="11/25/2022" content="they ate and ate and ate"/>);
-blurbs.push(<Blurb date="11/25/2022" content="note to self: orcs not orks"/>);
-blurbs.push(<Blurb date="11/25/2022" content="remember to sing loudly"/>);
-let app = <App blurbs={blurbs} />;
-
-bl_root.render(app);
+bl_root.render(<App/>);
 

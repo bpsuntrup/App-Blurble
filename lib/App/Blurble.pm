@@ -38,6 +38,7 @@ sub startup {
   # to /login TODO: figure out how to do that up at this level
   $r->get('/blurbs')->to('blurbs#blurbs');
   $r->post('/blurb')->to('blurbs#add_blurb');
+  $r->delete('/blurb/:blurb_id')->to('blurbs#delete_blurb');
 }
 
 1;

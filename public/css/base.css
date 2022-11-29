@@ -64,6 +64,6 @@ input[type=text] {
     }
 }
 
-#710 is the magic number
-
-
+.delete-button {
+    float: right;
+}
