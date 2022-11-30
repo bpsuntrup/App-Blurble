@@ -47,7 +47,7 @@ class App extends React.Component {
   handleDeleteBlurb(e) {
     console.log(e);
     console.log(e.target.parentElement.attributes.id);
-    //formatted like 'blurb_id-123'
+    // formatted like 'blurb_id-123'
     const [ ,blurb_id] = e.target.parentElement.attributes.id.nodeValue.split('-');
     console.log(blurb_id);
     fetch('/blurb/' + blurb_id, {

@@ -2,18 +2,21 @@ package App::Blurble;
 
 use strict;
 use warnings;
+use feature 'state';
 
 use Mojo::Base 'Mojolicious';
 use App::Blurble::Utils qw/app_base/;
 use aliased 'App::Blurble::Model';
 use aliased 'App::Blurble::Biz';
+use base 'Exporter';
+our @EXPORT_OK = qw/config/;
 
 # This method will run once at server start
 sub startup {
   my $self = shift;
 
   # Load configuration from hash returned by "my_app.conf"
-  my $config = $self->plugin('Config');
+  my $config = $self->config;
 
   $self->plugin('tt_renderer');
 
@@ -39,6 +42,14 @@ sub startup {
   $r->get('/blurbs')->to('blurbs#blurbs');
   $r->post('/blurb')->to('blurbs#add_blurb');
   $r->delete('/blurb/:blurb_id')->to('blurbs#delete_blurb');
+}
+
+sub config {
+    state $config;
+    return $config if $config;
+
+    my $file = $ENV{BLURBLE_CONFIG} || app_base . '/../app-blurble.conf';
+    $config = do $file;
 }
 
 1;
