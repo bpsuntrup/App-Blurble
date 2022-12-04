@@ -2,7 +2,6 @@ package App::Blurble::Utils;
 
 use strict;
 use warnings;
-use feature 'state';
 
 use FindBin qw/$Bin/;
 

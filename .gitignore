@@ -7,3 +7,5 @@ public/blurbs.bundle.js*
 *.swp
 *.swo
 local/
+testdb
+
