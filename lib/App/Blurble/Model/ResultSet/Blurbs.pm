@@ -4,8 +4,7 @@ use strict;
 use warnings;
 use feature 'state';
 use POSIX qw/strftime/;
-use App::Blurble::DB qw/$dbh/;
-use App::Blurble::Utils qw/last_id/;
+use App::Blurble::DB qw/$dbh last_id/;
 
 use Moose;
 

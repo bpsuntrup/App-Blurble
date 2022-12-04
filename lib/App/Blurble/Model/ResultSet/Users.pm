@@ -5,8 +5,7 @@ use warnings;
 use feature 'state';
 use feature 'fc';
 
-use App::Blurble::Utils qw/last_id/;
-use App::Blurble::DB qw/$dbh/;
+use App::Blurble::DB qw/$dbh last_id/;
 use Digest::SHA qw/sha256_hex/;
 use POSIX qw/strftime/;
 
