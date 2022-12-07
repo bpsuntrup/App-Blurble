@@ -20,7 +20,7 @@ How to run it:
 npm install 
 npm exec webpack
 carton install
-carton exec prove -l
+carton exec prove -lv
 carton exec script/app_blurble daemon -l http://*:8000  # or your favorite Mojolicious::Command
 
 
@@ -28,7 +28,6 @@ carton exec script/app_blurble daemon -l http://*:8000  # or your favorite Mojol
 TODO:
 * README (it sucks)
 * pod
-* tests
 * turn on taint and clean up
 * mojo form validation for all forms
     * users#create

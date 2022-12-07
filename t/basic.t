@@ -7,6 +7,7 @@ BEGIN {$ENV{BLURBLE_SET_CONFIG} = 'dbname,q(testdb)'}
 
 use App::Blurble::Config qw/config/;
 use aliased 'App::Blurble::Model::Init';
+use aliased 'App::Blurble::Model::ResultSet::Users';
 
 my $t = Test::Mojo->new('App::Blurble');
 
@@ -14,13 +15,78 @@ is(config()->{dbname}, 'testdb', 'connected to test db');
 
 Init->init_db;
 
-#$t->get_ok('/')->status_is(200)->content_like(qr/log in/i);
+# test create user with bad username
+$t->ua->max_redirects(1);
+$t->post_ok('/user' => form => 
+    { username => '8badname',
+      password => 's00cr3t', });
+$t->status_is(200)->content_like(qr/Username is invalid/);
 
-# test that login strips whitespace
-# need to set up mock DB or something, i guess.
+# test create user
+$t->post_ok('/user' => form => 
+    { username => 'mickeymouse',
+      password => 's3cr3t', });
+$t->status_is(200)->content_like(qr/User mickeymouse created successfully/);
 
-#$t->get_ok('/login?')->
+my $user = Users->get_by_username('mickeymouse');
+is($user->{username}, 'mickeymouse', 'user is in database');
+isnt($user->{password}, 's3cr3t', 'password is unreadable');
 
-# test that login gives cookie, redirects to /blurbs
+# test create user with same username
+$t->post_ok('/user' => form => 
+    { username => 'mickeymouse',
+      password => 's3cr11t', });
+$t->status_is(200)->content_like(qr/Username exists./);
+
+# test login with nonexistant user
+$t->get_ok('/login', form => {
+    username => 'donaldduck',
+    password => 'st00p1db3rd',
+})->status_is(200)->content_like(qr/Invalid login credentials/);
+
+# test login with wrong password
+$t->get_ok('/login', form => {
+    username => 'mickeymouse',
+    password => 'wr0ngP455_dUd3',
+})->status_is(200)->content_like(qr/Invalid login credentials/);
+
+# test happy login 
+$t->get_ok('/login', form => {
+    username => 'mickeymouse',
+    password => 's3cr3t',
+})->status_is(200)->content_like(qr/Blurbs by mickeymouse/);
+
+# test logout
+$t->post_ok('/unlogin')->status_is(200)->content_like(qr'This is Blurble.');
+
+# see if we're really logged out
+$t->get_ok('/blurbs')->status_is(200)->content_like(qr'You do not have permission to view this page.');
+
+# test login with whitespace and wrong case in username
+$t->get_ok('/login', form => {
+    username => ' MickeyMouse   ',
+    password => 's3cr3t',
+})->status_is(200)->content_like(qr/Blurbs by mickeymouse/);
+
+# test add blurb
+$t->post_ok('/blurb', json => {
+    blurb_content => "Pluto is a g00d doggie."
+})->status_is(200);
+
+$t->get_ok('/blurbs', {'Content-Type', 'application/json'})
+  ->status_is(200)
+  ->content_type_like(qr'application/json')
+  ->json_has('/blurbs/0');
+
+# test delete blurb
+$t->delete_ok('/blurb/1')->status_is(200);
+
+$t->get_ok('/blurbs', {'Content-Type', 'application/json'})
+  ->status_is(200)
+  ->content_type_like(qr'application/json')
+  ->json_hasnt('/blurbs/0');
+
+# destroy database
+unlink 'testdb';
 
 done_testing();
