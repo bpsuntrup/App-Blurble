@@ -32,4 +32,18 @@ sub create_user_now {
     return $self->redirect_to($url);
 }
 
+sub change_password {
+    my $self = shift;
+
+    # TODO username validation. Make this a helper
+    # in all of my controllers. Grep for peanutbutter for more
+    my $username = $self->session('username');
+    unless ($username) {
+        my $url = $self->url_for('/')->query( 
+            top_msg => 'You do not have permission to view this page. Please log in.'
+        );
+        return $self->redirect_to($url);
+    }
+}
+
 1;

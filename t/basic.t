@@ -20,15 +20,15 @@ $t->ua->max_redirects(1);
 $t->post_ok('/user' => form => 
     { username => '8badname',
       password => 's00cr3t', });
-$t->status_is(200)->content_like(qr/Username is invalid/);
+$t->status_is(200)->text_like('#user_msg' =>  qr/Username is invalid/);
 
 # test create user
 $t->post_ok('/user' => form => 
     { username => 'mickeymouse',
       password => 's3cr3t', });
-$t->status_is(200)->content_like(qr/User mickeymouse created successfully/);
+$t->status_is(200)->text_like('#top_msg' => qr/User mickeymouse created successfully/);
 
-my $user = Users->get_by_username('mickeymouse');
+my $user = Users->get_by_username('mickeymouse', password_please => 1);
 is($user->{username}, 'mickeymouse', 'user is in database');
 isnt($user->{password}, 's3cr3t', 'password is unreadable');
 
@@ -36,37 +36,37 @@ isnt($user->{password}, 's3cr3t', 'password is unreadable');
 $t->post_ok('/user' => form => 
     { username => 'mickeymouse',
       password => 's3cr11t', });
-$t->status_is(200)->content_like(qr/Username exists./);
+$t->status_is(200)->text_like('#user_msg' => qr/Username exists./);
 
-# test login with nonexistant user
+# Log in with nonexistant user
 $t->get_ok('/login', form => {
     username => 'donaldduck',
     password => 'st00p1db3rd',
-})->status_is(200)->content_like(qr/Invalid login credentials/);
+})->status_is(200)->text_like('#login_msg' => qr/Invalid login credentials/) or diag("log in with nonexistant user");
 
 # test login with wrong password
 $t->get_ok('/login', form => {
     username => 'mickeymouse',
     password => 'wr0ngP455_dUd3',
-})->status_is(200)->content_like(qr/Invalid login credentials/);
+})->status_is(200)->text_like('#login_msg' => qr/Invalid login credentials/);
 
 # test happy login 
 $t->get_ok('/login', form => {
     username => 'mickeymouse',
     password => 's3cr3t',
-})->status_is(200)->content_like(qr/Blurbs by mickeymouse/);
+})->status_is(200)->text_like('head title' => qr/Blurbs by mickeymouse/);
 
 # test logout
-$t->post_ok('/unlogin')->status_is(200)->content_like(qr'This is Blurble.');
+$t->post_ok('/unlogin')->status_is(200)->text_like('header h1' => qr'This is Blurble.');
 
 # see if we're really logged out
-$t->get_ok('/blurbs')->status_is(200)->content_like(qr'You do not have permission to view this page.');
+$t->get_ok('/blurbs')->status_is(200)->text_like('#top_msg' => qr'You do not have permission to view this page.');
 
 # test login with whitespace and wrong case in username
 $t->get_ok('/login', form => {
     username => ' MickeyMouse   ',
     password => 's3cr3t',
-})->status_is(200)->content_like(qr/Blurbs by mickeymouse/);
+})->status_is(200)->text_like('head title' => qr/Blurbs by mickeymouse/);
 
 # test add blurb
 $t->post_ok('/blurb', json => {
@@ -86,7 +86,10 @@ $t->get_ok('/blurbs', {'Content-Type', 'application/json'})
   ->content_type_like(qr'application/json')
   ->json_hasnt('/blurbs/0');
 
+Init->init_db;
+
 # destroy database
 unlink 'testdb';
+
 
 done_testing();

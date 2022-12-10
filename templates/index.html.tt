@@ -8,7 +8,7 @@
 <body>
 
 [% IF top_msg %]
-<h2 style="color: red;"> [% top_msg %] </h2>
+<h2 style="color: red;" id="top_msg"> [% top_msg %] </h2>
 [% END %]
 <header>
 <h1>This is Blurble. <span id="antisocial-tag">Go away!</span></h1>
@@ -28,7 +28,7 @@
 <input type="submit" value="log in" formmethod="get"></input>
 </form>
 
-<p style="color: red"> [% login_msg | html %] </p>
+<p id="login_msg" style="color: red"> [% login_msg | html %] </p>
 
 <h2>Create a new user</h2>
 
@@ -44,7 +44,7 @@
 <input type="submit" value="create user" formmethod="post"></input> <!-- TODO: would be cool if there were a way of validating username in real time and styling -->
 </form>
 
-<p style="color: red"> [% user_msg | html %] </p>
+<p id="user_msg" style="color: red"> [% user_msg | html %] </p>
 
 
 

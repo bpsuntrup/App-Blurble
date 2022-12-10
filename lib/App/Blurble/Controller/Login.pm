@@ -11,7 +11,7 @@ sub login_now {
     my $self = shift;
     my $rp = $self->req->params->to_hash;
     my ($username) = $rp->{username} =~ s/^\s+|\s+$//gr;
-    my $user = $self->model->users->get_by_username($username);
+    my $user = $self->model->users->get_by_username($username, password_please => 1);
     my $auth = $user && $self->model->users->auth_check(user => $user, password => $rp->{password});
     if ($auth) {
         $self->session(username => $user->{username});

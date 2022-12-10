@@ -12,14 +12,19 @@ use aliased 'App::Blurble::Model';
 sub blurbs {
     my $self = shift;
 
-    # TODO username validation. Make this a helper in all of my controllers. Grep for peanutbutter for more
+    # TODO username validation. Make this a helper
+    # in all of my controllers. Grep for peanutbutter for more
     my $username = $self->session('username');
     unless ($username) {
-        my $url = $self->url_for('/')->query( top_msg => 'You do not have permission to view this page. Please log in.' );
+        my $url = $self->url_for('/')->query( 
+            top_msg => 'You do not have permission to view this page. Please log in.'
+        );
         return $self->redirect_to($url);
     }
 
-    my @blurbs = Model->blurbs->get_all(user_id => $self->session('user_id')); # TODO: this can be optimized easily... at least paginated, right?
+    my @blurbs = Model->blurbs->get_all(
+        user_id => $self->session('user_id')
+    ); # TODO: this can be optimized easily... at least paginated, right?
 
     my $content_type = $self->req->headers->content_type;
     if ($content_type =~ /json/) {
