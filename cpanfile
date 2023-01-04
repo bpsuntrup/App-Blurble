@@ -7,3 +7,4 @@ requires 'Sub::Name';
 requires 'File::Slurp';
 requires 'Mojolicious::Plugin::TtRenderer';
 requires 'Moose';
+requires 'Scope::Guard';

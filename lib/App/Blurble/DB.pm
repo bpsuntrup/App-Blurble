@@ -9,6 +9,7 @@ our @EXPORT_OK = qw/ dbh $dbh last_id /;
 
 use DBI;
 use App::Blurble::Config qw/config/;
+use Scope::Guard;
 
 our $dbh = _connect();
 
@@ -31,13 +32,11 @@ sub _connect {
     return $dbh;
 }
 
-# TODO: maybe move this to DB class, since it's coupled with sqlite specific function
 sub last_id {
     state $sth = $dbh->prepare("SELECT LAST_INSERT_ROWID()");
     $sth->execute();
     my ($id) = $sth->fetchrow_array;
     return $id;
 }
-                     
 
 1;

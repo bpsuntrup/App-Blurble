@@ -21,11 +21,19 @@ npm install
 npm exec webpack
 carton install
 carton exec prove -lv
+carton exec script/init_schema.pl
 carton exec script/app_blurble daemon -l http://*:8000  # or your favorite Mojolicious::Command
 
 
 
 TODO:
+* csrf hardening
+* change password (keep old hashes? encrypted old passwords with new password)
+    * password needs an order field
+    * password n encrypts password n-1
+    * you can recover old passwords with current password?
+    * passwords are used to encrypt blurbs.
+    * blurbs are re-encrypted when new passwords are added. Double encryption, I guess. Encryption needs to encode order # of secret used to encrypt
 * README (it sucks)
 * pod
 * turn on taint and clean up
