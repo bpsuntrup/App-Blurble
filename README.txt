@@ -27,6 +27,7 @@ carton exec script/app_blurble daemon -l http://*:8000  # or your favorite Mojol
 
 
 TODO:
+* make blurbles bounce (see included bounce.html for proof of concept)
 * csrf hardening
 * change password (keep old hashes? encrypted old passwords with new password)
     * password needs an order field

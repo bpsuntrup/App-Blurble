@@ -1,0 +1,54 @@
+<html>
+<head>
+</head>
+<body>
+
+<div id="blurb"></div>
+
+</body>
+<style>
+#blurb {
+    background-color: cyan;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 2.5rem;
+}
+
+</style>
+<script>
+let b = document.getElementById("blurb");
+
+let blurb = {
+  "div": b,
+  "velocity": [0,0] // x,y
+
+};
+
+
+function dropBlurb() {
+  // get y of blurb
+  let div = blurb.div;
+  let bound = div.getBoundingClientRect();
+  let y = bound.top;
+  let x = bound.left;
+  if (bound.bottom >= window.innerHeight) {
+    blurb.velocity[0] *= -0.9;
+    div.style.position = "absolute";
+    div.style.top = (window.innerHeight - bound.height - 1) + "px";
+    return;
+  }
+
+  // accelerate blurb (increment velocity downward)
+  blurb.velocity[0] += 1;
+
+  // apply velocity to blurb
+  y += blurb.velocity[0];
+  x += blurb.velocity[1];
+  div.style.position = "absolute";
+  div.style.left = x + "px";
+  div.style.top = y + "px";
+}
+
+let interval = setInterval(dropBlurb, 20);
+</script>
+</html>
