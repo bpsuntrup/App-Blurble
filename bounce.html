@@ -2,16 +2,19 @@
 <head>
 </head>
 <body>
+<button id="faster" style="height: 30px;" onclick="gofaster()"> GO FASTER </button>
+<button id="faster" style="height: 30px;" onclick="gohigher()"> GO HIGHER </button>
+<div id="score"> <h1>0<h1> </div>
 
-<div id="blurb"></div>
+<div id="blurb" onclick="changecolor()"></div>
 
 </body>
 <style>
 #blurb {
     background-color: cyan;
-    height: 5rem;
-    width: 5rem;
-    border-radius: 2.5rem;
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
 }
 
 </style>
@@ -20,35 +23,129 @@ let b = document.getElementById("blurb");
 
 let blurb = {
   "div": b,
-  "velocity": [0,0] // x,y
-
+  "velocity": [0,100], // x,y
+  "radius": 5,
 };
 
+let score = 0;
+let s = document.getElementById("score");
+
+function changecolor() {
+    if (b.style.backgroundColor == "cyan") {
+        b.style.backgroundColor = "red";
+    }
+    else {
+        b.style.backgroundColor = "cyan";
+    }
+    score++;
+    s.children[0].textContent = score;
+    b.style.height = "10px";
+    b.style.width = "10px";
+    b.style.borderRadius = "5px";
+    blurb.radius = 5;
+}
+
+function gofaster() {
+    if (blurb.velocity[1] < 0) {
+        blurb.velocity[1] -= 50 ;
+    }
+    else {
+        blurb.velocity[1] += 50;
+    }
+    if (blurb.velocity[0] == 0) {
+        blurb.velocity[0] += 50;
+    }
+}
+function gohigher() {
+    if (blurb.velocity[0] < 0) {
+        blurb.velocity[0] -= 100;
+    }
+    else {
+        blurb.velocity[0] += 100;
+    }
+}
+
+const bounciness = 0.9;
 
 function dropBlurb() {
   // get y of blurb
+
+  b.style.height = blurb.radius*2 + "px";
+  b.style.width = blurb.radius*2 + "px";
+  b.style.borderRadius = blurb.radius + "px";
+  blurb.radius += 0.1;
+
   let div = blurb.div;
   let bound = div.getBoundingClientRect();
   let y = bound.top;
   let x = bound.left;
-  if (bound.bottom >= window.innerHeight) {
-    blurb.velocity[0] *= -0.9;
-    div.style.position = "absolute";
-    div.style.top = (window.innerHeight - bound.height - 1) + "px";
-    return;
+  let rightSide = window.innerWidth - bound.width;
+  let bottomSide = window.innerHeight - bound.height;
+  if (y >= bottomSide) {
+    if (blurb.velocity[0] < 2) {
+      blurb.velocity[0] = 0;
+      div.style.position = "absolute";
+      div.style.top = (bottomSide) + "px";
+    }
+    else {
+      blurb.velocity[0] *= -bounciness;
+      div.style.position = "absolute";
+      div.style.top = (bottomSide - 1) + "px";
+    }
   }
+  else {
+    // accelerate blurb (increment velocity downward)
+    blurb.velocity[0] += 1;
 
-  // accelerate blurb (increment velocity downward)
-  blurb.velocity[0] += 1;
-
-  // apply velocity to blurb
-  y += blurb.velocity[0];
-  x += blurb.velocity[1];
-  div.style.position = "absolute";
-  div.style.left = x + "px";
-  div.style.top = y + "px";
+    // apply velocity to blurb
+    y += blurb.velocity[0];
+    div.style.position = "absolute";
+    div.style.top = (y > bottomSide ? bottomSide : y) + "px";
+  }
+  if (x >= rightSide) {
+    if (blurb.velocity[1] < 2) {
+      blurb.velocity[1] = 0;
+      div.style.position = "absolute";
+      div.style.left = (rightSide) + "px";
+    }
+    else {
+      blurb.velocity[1] *= -bounciness;
+      div.style.position = "absolute";
+      div.style.left = (rightSide - 1) + "px";
+    }
+  }
+  else if (x <= 0) {
+    if (Math.abs(blurb.velocity[1]) < 2) {
+      blurb.velocity[1] = 0;
+      div.style.position = "absolute";
+      div.style.left = "0px";
+    }
+    else {
+      blurb.velocity[1] *= -bounciness;
+      div.style.position = "absolute";
+      div.style.left = "1px";
+    }
+  }
+  else {
+    if (y == bottomSide) {
+        if (Math.abs(blurb.velocity[1]) > 0) {
+            let lv = Math.abs(blurb.velocity[1]) - 0.01;
+            lv = lv < 0 ? 0 : lv;
+            blurb.velocity[1] = blurb.velocity[1] < 0 ? -lv : lv;
+        }
+    }
+    x += blurb.velocity[1];
+    div.style.position = "absolute";
+    div.style.left = (x > rightSide  ? rightSide : x) + "px";
+  }
 }
 
 let interval = setInterval(dropBlurb, 20);
+
+window.addEventListener('keydown', (e) => { 
+    if (e.keyCode = 32) { gofaster() }
+    else if (e.keyCode = 74) {gohigher() }
+    document.body.focus();
+} );
 </script>
 </html>
