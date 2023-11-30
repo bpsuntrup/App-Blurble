@@ -45,6 +45,7 @@ TODO:
 * build and deploy script
 * handle failed blurb deletes (e.g. session expired)
 * add pagination to front end
+* add columns to blurble
 
 
 FUTURE FEATURES:
