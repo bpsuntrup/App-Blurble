@@ -44,6 +44,7 @@ TODO:
 * GMT is great, but it should convert it to local time
 * build and deploy script
 * handle failed blurb deletes (e.g. session expired)
+* add pagination to front end
 
 
 FUTURE FEATURES:

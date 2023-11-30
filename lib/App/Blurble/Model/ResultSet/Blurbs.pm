@@ -37,9 +37,11 @@ sub create {
     };
 }
 
-# TODO: support pagination or something
 sub get_all {
     my ($self, %params) = @_;
+
+    $params{last_blurb_id} //= 0;
+    $params{page_size} //= 20;
 
     unless ($params{user_id}) {
         die "We needs a user_id."
@@ -49,10 +51,12 @@ sub get_all {
         SELECT * FROM blurbs 
         JOIN user_blurbs on user_blurbs.blurb_id = blurbs.blurb_id
         WHERE user_id = ?
+          AND blurb_id < ?
         ORDER BY blurb_id DESC
+        LIMIT ?
         EOQ
 
-    $sth->execute($params{user_id});
+    $sth->execute($params{user_id}, $params{last_blurb_id}, $params{page_size});
 
     my @result;
     while (my $hash = $sth->fetchrow_hashref()) {
