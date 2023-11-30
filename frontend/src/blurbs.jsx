@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 const bl_root = ReactDOM.createRoot(document.getElementById('blurb-list-root'));
 //const search_root = ReactDOM.createRoot(document.getElementById('search-root'));
 
+/* TODO: this should know where it is? I want to add a bounce button. */
 class Blurb extends React.Component {
   render() {
     return <div className="blurb" id={this.props.id} >
@@ -45,8 +46,6 @@ class App extends React.Component {
   }
 
   handleDeleteBlurb(e) {
-    console.log(e);
-    console.log(e.target.parentElement.attributes.id);
     // formatted like 'blurb_id-123'
     const [ ,blurb_id] = e.target.parentElement.attributes.id.nodeValue.split('-');
     console.log(blurb_id);
@@ -75,7 +74,7 @@ class App extends React.Component {
       body: JSON.stringify({ blurb_content: this.state.newContent })
     }).then(res => res.json()).then((json) => {
       let blurb = <li key={json.blurb_id} >
-                    <Blurb date={json.date} content={this.state.newContent} onDelete={this.handleDeleteBlurb}/>
+                    <Blurb id={"blurb_id-" + json.blurb_id} date={json.date} content={this.state.newContent} onDelete={this.handleDeleteBlurb}/>
                   </li>;
       this.setState({ 
         newContent: "",
