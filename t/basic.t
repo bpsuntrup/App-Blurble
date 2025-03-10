@@ -2,6 +2,7 @@ use Mojo::Base -strict;
 
 use Test::More;
 use Test::Mojo;
+use Test::Mojo::WithRoles 'Debug';
 
 BEGIN {$ENV{BLURBLE_SET_CONFIG} = 'dbname,q(testdb)'}
 
@@ -9,7 +10,7 @@ use App::Blurble::Config qw/config/;
 use aliased 'App::Blurble::Model::Init';
 use aliased 'App::Blurble::Model::ResultSet::Users';
 
-my $t = Test::Mojo->new('App::Blurble');
+my $t = Test::Mojo::WithRoles->new('App::Blurble');
 
 is(config()->{dbname}, 'testdb', 'connected to test db');
 
@@ -75,7 +76,7 @@ $t->post_ok('/blurb', json => {
 
 $t->get_ok('/blurbs', {'Content-Type', 'application/json'})
   ->status_is(200)
-  ->content_type_like(qr'application/json')
+  ->content_type_like(qr'application/json')->da # BENJAMIN TODO: cleanup ->da
   ->json_has('/blurbs/0');
 
 # test delete blurb

@@ -8,3 +8,9 @@ requires 'File::Slurp';
 requires 'Mojolicious::Plugin::TtRenderer';
 requires 'Moose';
 requires 'Scope::Guard';
+
+on 'test' => sub {
+  requires 'Test::More';
+  requires 'Test::Mojo::WithRoles';
+  requires 'Test::Mojo::Role::Debug';
+};

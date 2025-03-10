@@ -1062,6 +1062,14 @@ DISTRIBUTIONS
       Scalar::Util 1.18
       XSLoader 0.22
       parent 0
+  Role-Tiny-2.002004
+    pathname: H/HA/HAARG/Role-Tiny-2.002004.tar.gz
+    provides:
+      Role::Tiny 2.002004
+      Role::Tiny::With 2.002004
+    requirements:
+      Exporter 5.57
+      perl 5.006
   Scope-Guard-0.21
     pathname: C/CH/CHOCOLATE/Scope-Guard-0.21.tar.gz
     provides:
@@ -1171,6 +1179,31 @@ DISTRIBUTIONS
       File::Spec 0.8
       File::Temp 0.12
       Scalar::Util 0
+  Test-Mojo-Role-Debug-1.005002
+    pathname: Z/ZO/ZOFFIX/Test-Mojo-Role-Debug-1.005002.tar.gz
+    provides:
+      Test::Mojo::Role::Debug 1.005002
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Mojo::Base 0
+      Mojo::File 0
+      Mojo::Util 0
+      Mojolicious 6.30
+      Role::Tiny 0
+      Test::Mojo::WithRoles 0.02
+      Test::More 0
+      perl 5.010
+  Test-Mojo-WithRoles-0.02
+    pathname: J/JB/JBERGER/Test-Mojo-WithRoles-0.02.tar.gz
+    provides:
+      Test::Mojo::Role undef
+      Test::Mojo::Role::Null undef
+      Test::Mojo::WithRoles 0.02
+    requirements:
+      Module::Build::Tiny 0.039
+      Mojolicious 4.0
+      Role::Tiny 0
   Try-Tiny-0.31
     pathname: E/ET/ETHER/Try-Tiny-0.31.tar.gz
     provides:
