@@ -51,8 +51,8 @@ sub get_all {
         SELECT * FROM blurbs 
         JOIN user_blurbs on user_blurbs.blurb_id = blurbs.blurb_id
         WHERE user_id = ?
-          AND blurb_id < ?
-        ORDER BY blurb_id DESC
+          AND blurbs.blurb_id < ?
+        ORDER BY blurbs.blurb_id DESC
         LIMIT ?
         EOQ
 
